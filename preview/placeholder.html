@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Placeholder Preview</title>
+<style>
+body{margin:0;background:#14121a;color:#eee;font:15px system-ui;display:flex;flex-wrap:wrap;gap:20px;padding:16px;justify-content:center}
+.panel{background:#1f1c29;border-radius:12px;padding:16px;min-width:260px}
+label{display:block;margin:12px 0 4px}select,input{width:100%}
+svg{background:#2a2636;border-radius:12px}
+.tag{font-size:12px;opacity:.7}
+</style></head><body>
+<svg id="s" width="320" height="520" viewBox="0 0 320 520">
+  <g id="char">
+    <!-- hair back -->
+    <path id="hairBack" d="M110 70 Q160 0 210 70 L220 200 L100 200 Z" fill="#2b2118"/>
+    <!-- neutral mannequin body (no detail, placeholder) -->
+    <ellipse cx="160" cy="80" rx="34" ry="40" fill="#cfc6bd"/>
+    <rect x="148" y="112" width="24" height="24" fill="#cfc6bd"/>
+    <path id="torso" d="M112 136 Q160 126 208 136 L200 270 Q160 282 120 270 Z" fill="#cfc6bd"/>
+    <path id="hips" d="M120 262 Q160 276 200 262 L212 330 L108 330 Z" fill="#cfc6bd"/>
+    <rect x="114" y="326" width="44" height="170" rx="14" fill="#cfc6bd"/>
+    <rect x="162" y="326" width="44" height="170" rx="14" fill="#cfc6bd"/>
+    <rect x="86" y="140" width="26" height="150" rx="12" fill="#cfc6bd"/>
+    <rect x="208" y="140" width="26" height="150" rx="12" fill="#cfc6bd"/>
+    <g id="chest"><ellipse cx="143" cy="188" rx="22" ry="24" fill="#bdb3a9"/><ellipse cx="177" cy="188" rx="22" ry="24" fill="#bdb3a9"/></g>
+    <!-- clothing layers: innermost first -->
+    <g id="underL" ><path d="M124 266 Q160 278 196 266 L204 300 L116 300 Z" fill="#e0a8c8"/></g>
+    <g id="braL"><ellipse cx="143" cy="188" rx="22" ry="20" fill="#d986b2"/><ellipse cx="177" cy="188" rx="22" ry="20" fill="#d986b2"/></g>
+    <g id="bottomL"><path d="M118 262 Q160 276 202 262 L216 400 L104 400 Z" fill="#3a4a6b"/></g>
+    <g id="topL"><path id="topP" d="M112 136 Q160 126 208 136 L204 250 Q160 262 116 250 Z" fill="#7a3d9c"/></g>
+    <g id="jacketL"><path d="M104 134 Q160 120 216 134 L226 300 L94 300 Z" fill="#222" opacity=".92"/><rect x="156" y="130" width="8" height="170" fill="#111"/></g>
+    <!-- hair front -->
+    <path id="hairFront" d="M122 60 Q160 20 198 60 Q190 90 160 70 Q130 90 122 60Z" fill="#2b2118"/>
+    <circle cx="146" cy="82" r="3.5" fill="#222"/><circle cx="174" cy="82" r="3.5" fill="#222"/>
+  </g>
+</svg>
+<div class="panel">
+  <h3 style="margin:0 0 4px">Placeholder (neutral mannequin)</h3>
+  <div class="tag">Shows how layers, customization and the arousal meter will drive the character. Real art replaces these shapes.</div>
+  <label>Arousal meter <b id="av">0</b>/100</label><input id="ar" type="range" min="0" max="100" value="0">
+  <div class="tag" id="state"></div>
+  <label>Hair color</label><input id="hc" type="color" value="#2b2118">
+  <label>Body type</label><select id="bt"><option>slim</option><option selected>athletic</option><option>curvy</option></select>
+  <label>Chest size <b id="cv">1.0</b></label><input id="cs" type="range" min="0.8" max="1.4" step="0.05" value="1">
+  <label>Style</label><select id="st"><option>normal</option><option>egirl</option><option>emo</option><option>sporty</option><option>goth</option></select>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const layers=[["jacketL","Jacket"],["topL","Top"],["bottomL","Pants/Skirt"],["braL","Bra"],["underL","Underwear"]];
+const styles={normal:["#7a3d9c","#3a4a6b","#222"],egirl:["#ff7eb6","#4a4a8a","#6c5ce7"],emo:["#222","#111","#555"],sporty:["#2ecc71","#1b2a49","#ecf0f1"],goth:["#5b2a86","#111","#000"]};
+function update(){
+  const a=+$("ar").value; $("av").textContent=a;
+  const step=Math.floor(a/100*layers.length*0.999);
+  layers.forEach(([id],i)=>{$(id).style.display = i<step ? "none":"";});
+  $("state").textContent = step? "Layers removed: "+step+"/"+layers.length : "Fully dressed";
+  const hc=$("hc").value; ["hairBack","hairFront"].forEach(i=>$(i).setAttribute("fill",hc));
+  const c=+$("cs").value; $("cv").textContent=c.toFixed(2);
+  ["chest","braL"].forEach(i=>{$(i).setAttribute("transform",`translate(160 188) scale(${c}) translate(-160 -188)`)});
+  const bt=$("bt").value, sx={slim:.9,athletic:1,curvy:1.12}[bt];
+  $("char").setAttribute("transform",`translate(160 0) scale(${sx} 1) translate(-160 0)`);
+  const s=styles[$("st").value];
+  $("topP").setAttribute("fill",s[0]); document.querySelector("#bottomL path").setAttribute("fill",s[1]);
+  document.querySelector("#jacketL path").setAttribute("fill",s[2]);
+}
+["ar","hc","bt","cs","st"].forEach(i=>$(i).addEventListener("input",update)); update();
+</script></body></html>
