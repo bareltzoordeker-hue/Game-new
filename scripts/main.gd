@@ -96,5 +96,9 @@ func _play_scene() -> void:
 	_clear()
 	var sp := Control.new()
 	sp.set_script(load("res://scripts/scene_player.gd"))
-	sp.done.connect(func(): sp.queue_free(); _room_select())
+	sp.done.connect(_scene_done.bind(sp))
 	add_child(sp)
+
+func _scene_done(sp: Control) -> void:
+	sp.queue_free()
+	_room_select()
