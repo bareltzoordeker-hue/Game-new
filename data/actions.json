@@ -1,0 +1,12 @@
+{
+  "_comment": "Each action: color (yellow/red/blue/none), power, cooldown (turns), unlock_stage (room index needed), targets (single/all/two), arousal_gain (player meter), enemy_excite (damage to enemy excitement meter). Add new actions here - no code needed. Text/animation names are placeholders for your art.",
+  "slash":      { "name": "Slash",       "color": "yellow", "power": 12, "cooldown": 0, "unlock_stage": 0, "targets": "single", "kind": "normal",  "anim": "attack_slash" },
+  "strike":     { "name": "Strike",      "color": "red",    "power": 12, "cooldown": 0, "unlock_stage": 0, "targets": "single", "kind": "normal",  "anim": "attack_strike" },
+  "bolt":       { "name": "Bolt",        "color": "blue",   "power": 12, "cooldown": 0, "unlock_stage": 0, "targets": "single", "kind": "normal",  "anim": "attack_bolt" },
+  "sweep":      { "name": "Sweep",       "color": "yellow", "power": 9,  "cooldown": 2, "unlock_stage": 3, "targets": "all",    "kind": "normal",  "anim": "attack_sweep" },
+  "tease_hand": { "name": "Hand Tease",  "color": "none",   "power": 0,  "cooldown": 1, "unlock_stage": 1, "targets": "single", "kind": "intimate", "arousal_gain": 6,  "enemy_excite": 30, "anim": "intimate_hand" },
+  "tease_mouth":{ "name": "Mouth Tease", "color": "none",   "power": 0,  "cooldown": 2, "unlock_stage": 2, "targets": "single", "kind": "intimate", "arousal_gain": 9,  "enemy_excite": 45, "anim": "intimate_mouth" },
+  "tease_chest":{ "name": "Chest Tease", "color": "none",   "power": 0,  "cooldown": 2, "unlock_stage": 4, "targets": "single", "kind": "intimate", "arousal_gain": 10, "enemy_excite": 50, "anim": "intimate_chest" },
+  "tease_weapon":{"name": "Weapon Tease","color": "none",   "power": 0,  "cooldown": 3, "unlock_stage": 5, "targets": "single", "kind": "intimate", "arousal_gain": 12, "enemy_excite": 60, "anim": "intimate_weapon" },
+  "tease_two":  { "name": "Double Tease","color": "none",   "power": 0,  "cooldown": 3, "unlock_stage": 6, "targets": "two",    "kind": "intimate", "arousal_gain": 14, "enemy_excite": 40, "anim": "intimate_two" }
+}

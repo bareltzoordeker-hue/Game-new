@@ -1,0 +1,7 @@
+{
+  "_comment": "Character creator options. All characters are 18+. 'styles' map to sprite sets you supply later.",
+  "styles": ["normal", "egirl", "emo", "sporty", "goth"],
+  "hair_colors": ["#2b2118", "#e8c07a", "#c0392b", "#6c5ce7", "#ff7eb6", "#dfe6e9"],
+  "body_types": ["slim", "athletic", "curvy"],
+  "chest_size": { "min": 0.8, "max": 1.4, "default": 1.0 }
+}

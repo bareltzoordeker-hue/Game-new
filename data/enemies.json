@@ -1,0 +1,8 @@
+{
+  "_comment": "Mixed enemy types. 'look' picks a sprite variant. All characters are adults.",
+  "grunt_y": { "name": "Husk (Yellow)", "color": "yellow", "hp": 40, "excite_max": 100, "attack": 6,  "look": 1 },
+  "grunt_r": { "name": "Husk (Red)",    "color": "red",    "hp": 40, "excite_max": 100, "attack": 6,  "look": 2 },
+  "grunt_b": { "name": "Husk (Blue)",   "color": "blue",   "hp": 40, "excite_max": 100, "attack": 6,  "look": 3 },
+  "brute":   { "name": "Brute",         "color": "red",    "hp": 70, "excite_max": 140, "attack": 10, "look": 4 },
+  "boss":    { "name": "Warden",        "color": "blue",   "hp": 220,"excite_max": 300, "attack": 16, "look": 5 }
+}

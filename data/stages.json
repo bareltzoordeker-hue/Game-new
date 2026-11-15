@@ -1,0 +1,8 @@
+{
+  "_comment": "Stage 1: 10 rooms + boss. Each room lists enemy ids. Room index = unlock progress.",
+  "rooms": [
+    ["grunt_y"], ["grunt_r"], ["grunt_b", "grunt_y"], ["grunt_r", "grunt_r"], ["brute"],
+    ["grunt_b", "grunt_b", "grunt_y"], ["grunt_y", "grunt_r", "grunt_b"], ["brute", "grunt_r"],
+    ["brute", "grunt_b", "grunt_y"], ["brute", "brute"], ["boss"]
+  ]
+}
