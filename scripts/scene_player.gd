@@ -11,13 +11,14 @@ var text: Label
 var title: Label
 
 func _ready() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	layout_direction = Control.LAYOUT_DIRECTION_LTR
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var all: Array = GameState._load_json("res://data/scenes.json").get("scenes", [])
 	var avail: Array = all.filter(func(s): return int(s.unlock_stage) <= GameState.room_unlocked)
 	if avail.is_empty():
 		done.emit(); return
 	scene = avail.pick_random()
-	var bg := ColorRect.new(); bg.color = Color.BLACK; bg.set_anchors_preset(Control.PRESET_FULL_RECT); add_child(bg)
+	var bg := ColorRect.new(); bg.color = Color.BLACK; add_child(bg); bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	pic = TextureRect.new(); pic.position = Vector2(240, 40); pic.size = Vector2(800, 520)
 	pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE; pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED; add_child(pic)
 	title = Label.new(); title.position = Vector2(20, 10); title.text = scene.room; add_child(title)

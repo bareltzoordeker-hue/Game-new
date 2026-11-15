@@ -4,6 +4,7 @@ extends Control
 var box: VBoxContainer
 
 func _ready() -> void:
+	layout_direction = Control.LAYOUT_DIRECTION_LTR   # keep layout left-to-right even if the editor is Hebrew
 	box = VBoxContainer.new()
 	box.set_anchors_preset(Control.PRESET_CENTER)
 	box.position = Vector2(440, 160)

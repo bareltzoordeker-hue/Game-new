@@ -42,8 +42,9 @@ func _ready() -> void:
 
 # ---------- UI (placeholder rectangles; replace with real sprites/AnimationPlayer) ----------
 func _build_ui() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
-	var bg := ColorRect.new(); bg.color = Color(0.08, 0.07, 0.1); bg.set_anchors_preset(Control.PRESET_FULL_RECT); add_child(bg)
+	layout_direction = Control.LAYOUT_DIRECTION_LTR
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var bg := ColorRect.new(); bg.color = Color(0.08, 0.07, 0.1); add_child(bg); bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	avatar = ColorRect.new(); avatar.position = Vector2(120, 160); avatar.size = Vector2(180, 340)
 	avatar.color = Color(GameState.character.hair); add_child(avatar)
 	avatar_tex = TextureRect.new(); avatar_tex.position = Vector2(60, 60); avatar_tex.size = Vector2(420, 460)
