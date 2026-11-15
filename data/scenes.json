@@ -1,0 +1,9 @@
+{
+  "_comment": "Scenes that play when she chooses to give in. 'room' is the location; each beat has text (WRITE YOUR OWN) and an image at assets/scenes/<id>/beat_<n>.png. Add as many as you like - one is picked at random from those unlocked.",
+  "scenes": [
+    { "id": "office",   "room": "Her office",    "unlock_stage": 0, "beats": ["[Your text for beat 1]", "[Your text for beat 2]", "[Your text for beat 3]"] },
+    { "id": "restroom", "room": "The restroom",  "unlock_stage": 2, "beats": ["[Your text for beat 1]", "[Your text for beat 2]", "[Your text for beat 3]"] },
+    { "id": "storage",  "room": "Storage room",  "unlock_stage": 4, "beats": ["[Your text for beat 1]", "[Your text for beat 2]", "[Your text for beat 3]"] },
+    { "id": "dungeon",  "room": "The dungeon",   "unlock_stage": 7, "beats": ["[Your text for beat 1]", "[Your text for beat 2]", "[Your text for beat 3]"] }
+  ]
+}

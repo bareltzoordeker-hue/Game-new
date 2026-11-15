@@ -49,3 +49,15 @@ func unlocked_actions() -> Array:
 		if int(actions[id].get("unlock_stage", 0)) <= room_unlocked:
 			out.append(id)
 	return out
+
+# Art lookup. Put PNGs at: res://assets/player/<style>_<body>/state_<0..4>.png
+# (0 = fully dressed ... 4 = all layers removed). Returns null if the art isn't there yet.
+func player_texture(state: int) -> Texture2D:
+	var path := "res://assets/player/%s_%s/state_%d.png" % [character.style, character.body, state]
+	if content_blur and state > 0:
+		path = "res://assets/player/%s_%s/state_0.png" % [character.style, character.body]
+	return load(path) if ResourceLoader.exists(path) else null
+
+func scene_texture(scene_id: String, beat: int) -> Texture2D:
+	var path := "res://assets/scenes/%s/beat_%d.png" % [scene_id, beat]
+	return load(path) if ResourceLoader.exists(path) else null

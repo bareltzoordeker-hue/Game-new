@@ -7,7 +7,7 @@ extends Control
 #  - Clothing comes off in steps as arousal rises.
 #  - Stamina 0 -> player is defeated (non-explicit placeholder screen; see _on_defeat).
 
-signal finished(won: bool)
+signal finished(won: bool, willing: bool)
 
 const ADV := {"yellow": "red", "red": "blue", "blue": "yellow"}
 const CLOTHING_STEPS := ["Jacket/Top", "Bra", "Bottom (pants/skirt)", "Underwear"]
@@ -26,7 +26,8 @@ var log_label: RichTextLabel
 var stats_label: Label
 var action_box: HBoxContainer
 var enemy_box: HBoxContainer
-var avatar: ColorRect
+var avatar: ColorRect                    # fallback placeholder
+var avatar_tex: TextureRect              # real art (res://assets/player/...)
 var clothing_label: Label
 
 func setup(room: int) -> void:
@@ -45,6 +46,9 @@ func _build_ui() -> void:
 	var bg := ColorRect.new(); bg.color = Color(0.08, 0.07, 0.1); bg.set_anchors_preset(Control.PRESET_FULL_RECT); add_child(bg)
 	avatar = ColorRect.new(); avatar.position = Vector2(120, 160); avatar.size = Vector2(180, 340)
 	avatar.color = Color(GameState.character.hair); add_child(avatar)
+	avatar_tex = TextureRect.new(); avatar_tex.position = Vector2(60, 60); avatar_tex.size = Vector2(420, 460)
+	avatar_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE; avatar_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	add_child(avatar_tex)
 	clothing_label = Label.new(); clothing_label.position = Vector2(110, 510); add_child(clothing_label)
 	stats_label = Label.new(); stats_label.position = Vector2(20, 20); add_child(stats_label)
 	enemy_box = HBoxContainer.new(); enemy_box.position = Vector2(640, 140); enemy_box.add_theme_constant_override("separation", 16); add_child(enemy_box)
@@ -56,7 +60,10 @@ func _refresh() -> void:
 	var removed := int(float(arousal) / AROUSAL_MAX * (CLOTHING_STEPS.size() + 0.999))
 	removed = clamp(removed, 0, CLOTHING_STEPS.size())
 	clothing_label.text = "Clothing removed: %d/%d" % [removed, CLOTHING_STEPS.size()]
-	avatar.modulate = Color(1, 1 - 0.1 * removed, 1 - 0.1 * removed)  # placeholder; real art swaps layers by `removed`
+	var tex := GameState.player_texture(removed)
+	avatar_tex.texture = tex
+	avatar.visible = tex == null
+	avatar.modulate = Color(1, 1 - 0.1 * removed, 1 - 0.1 * removed)  # fallback only
 
 	for c in enemy_box.get_children(): c.queue_free()
 	for e in enemies:
@@ -160,15 +167,23 @@ func _win() -> void:
 	GameState.save_game()
 	busy = true
 	await get_tree().create_timer(1.2).timeout
-	finished.emit(true)
+	finished.emit(true, false)
 
-# Defeat: placeholder. You decide what scene plays here (see notes in chat).
+# Out of stamina. If her arousal is high she CHOOSES to give in (willing); otherwise it's a plain defeat.
+const WILLING_THRESHOLD := 50
+
 func _on_defeat() -> void:
 	busy = true
-	_log("She collapses... Defeat.")
-	play_anim("player_defeat")
-	await get_tree().create_timer(1.5).timeout
-	finished.emit(false)
+	if arousal >= WILLING_THRESHOLD:
+		_log("She stops fighting - she wants this.")
+		play_anim("player_choose")
+		await get_tree().create_timer(1.0).timeout
+		finished.emit(false, true)    # (won, willing)
+	else:
+		_log("She collapses... Defeat.")
+		play_anim("player_defeat")
+		await get_tree().create_timer(1.5).timeout
+		finished.emit(false, false)
 
 # Hook for your art: later this will drive an AnimationPlayer / AnimatedSprite2D.
 func play_anim(anim_name: String) -> void:

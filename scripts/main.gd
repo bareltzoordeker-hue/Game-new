@@ -71,5 +71,15 @@ func _start_battle(i: int) -> void:
 	var battle := Control.new()
 	battle.set_script(load("res://scripts/battle.gd"))
 	battle.setup(i)
-	battle.finished.connect(func(_won): battle.queue_free(); _room_select())
+	battle.finished.connect(func(_won, willing):
+		battle.queue_free()
+		if willing: _play_scene()
+		else: _room_select())
 	add_child(battle)
+
+func _play_scene() -> void:
+	_clear()
+	var sp := Control.new()
+	sp.set_script(load("res://scripts/scene_player.gd"))
+	sp.done.connect(func(): sp.queue_free(); _room_select())
+	add_child(sp)
